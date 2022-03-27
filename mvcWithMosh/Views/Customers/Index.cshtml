@@ -1,0 +1,66 @@
+﻿@model IEnumerable<mvcWithMosh.Models.Customers>
+@{
+    ViewBag.Title = "Customers Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h2 class="my-4">Customers</h2>
+        </div>
+        <div class="col-md-6">
+            @Html.ActionLink("Add Customer", "New", null, new { @class = "btn btn-outline-info mt-3 float-right" })
+        </div>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <p class="alert alert-info">We don't have any movie yet.</p>
+    }
+    else
+    {
+        <div class="table-responsive">
+
+            <table class="table table-hover table-bordered" id="tblCustomers">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Discount Rate</th>
+                        <th>Member</th>
+                        <th>Membership Type</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var cust in Model)
+                    {
+                        <tr>
+                            <td>@Html.ActionLink(@cust.Name, "Details", "Customers", new { id = cust.Id }, new { @class = "nav-link" })</td>
+                            <td>@cust.MembershipType.DiscountRate %</td>
+                            <td>
+                                @(cust.IsSubscriber == true ? "Yes" : "No")
+                            </td>
+                            <td>@cust.MembershipType.Name</td>
+                            <td>
+                                @Html.ActionLink("Edit Details", "Edit", new { id = cust.Id }, new { @class = "btn btn-sm btn-outline-info" })
+                                @Html.ActionLink("Delete", "Delete", new { id = cust.Id }, new { @class = "btn btn-sm btn-outline-danger" })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+
+    @section scripts{
+        <script>
+            $(document).ready(() => {
+
+                $("#tblCustomers").DataTable();
+
+            });
+        </script>
+    }

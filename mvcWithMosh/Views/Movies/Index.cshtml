@@ -1,0 +1,115 @@
+﻿@model IEnumerable<mvcWithMosh.Models.Movies>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row col-md-12 p-0">
+        <div class="col-md-6">
+            <h2 class="my-4">Movies</h2>
+        </div>
+        <div class="col-md-6">
+            @Html.ActionLink("Add Movie", "NewMovie", null, new { @class = "btn btn-outline-info mt-3 float-right" })
+        </div>
+    </div>
+    <hr />
+    <div class="table-responsive col-md-12 p-0 table-hover">
+        <table class="table w-100" id="tblMovies">
+            <thead>
+                <tr class="font-weight-bold">
+                    <th>Movie Name</th>
+                    <th>Genre</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @*@foreach (var movie in Model)
+                    {
+                        <tr onclick="myRowIndex(this)">
+                            <td>@Html.ActionLink(movie.Name, "Details", new { id = movie.Id }, new { @class = "card-link text-info" }) </td>
+                            <td>@movie.Genre.Name</td>
+                            <td>
+                                <input type="hidden" value="@movie.Id" id="movieID" />
+                                <button type="button" class="btn text-info btn-link btnRemove">
+                                    Remove
+                                </button>
+                            </td>
+                        </tr>
+                    }*@
+            </tbody>
+        </table>
+
+    </div>
+</div>
+@section scripts{
+    <script>
+        var newRowInd = '';
+        $(document).ready(() => {
+
+            PopulateMoviesRecord();
+
+            $(".dataTables_wrapper").removeClass("form-inline");
+
+            $("#tblMovies").on('click', '.btnRemove', () => {
+
+                var currentRow = $('#tblMovies tbody tr:eq(' + newRowInd + ') td:eq(2)').find('#movieID').parent().parent().index();
+
+                var mid = $('#tblMovies tbody tr:eq(' + newRowInd + ') td:eq(2)').find('#movieID').val();
+
+                bootbox.confirm("Are you sure you want remove this record?", (result) => {
+                    if (result) {
+
+                        $.ajax({
+                            url: "/api/Movies/" + mid,
+                            method: "DELETE",
+                            success: (res) => {
+                                //bootbox.alert('Record removed successfully.');
+                                //$('#tblMovies tbody tr:eq(' + currentRow + ')').remove();
+                                $("#tblMovies").DataTable().destroy();
+                                PopulateMoviesRecord();
+                            },
+                            error: (error) => {
+                                bootbox.alert(error);
+                            }
+                        });
+                    }
+                });
+            });
+        });
+        function PopulateMoviesRecord() {
+            $("#tblMovies").DataTable({
+                ajax: {
+                    url: "/api/Movies/",
+                    dataSrc: "",
+                },
+                columns: [
+                    {
+                        data: "name",
+                        render: (data, type, movie) => {
+                            return `<a href='/movies/Details/${movie.id}' class='card-link text-info'> ${data} </a>`
+                        }
+
+                    },
+                    {
+                        data: "genre.name",
+
+                    },
+                    {
+                        data: "id",
+                        render: (data) => {
+                            return `<input type="hidden" value="${data}" id="movieID" />
+                                    <button type="button" class="btn text-info btn-link btnRemove">
+                                        Remove
+                                    </button>`
+                        }
+                    }
+                ]
+            });
+        }
+        function myRowIndex(rowInd) {
+            newRowInd = rowInd.rowIndex - 1;
+
+        }
+    </script>
+}

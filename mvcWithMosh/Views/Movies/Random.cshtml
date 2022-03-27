@@ -1,0 +1,27 @@
+﻿@model mvcWithMosh.ViewModels.RandomMovieViewModel
+@*@model mvcWithMosh.Models.Movies*@
+@{
+    ViewBag.Title = "Random";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="container mt-3">
+
+    <h2>Random Movie</h2>
+    <h4>Movie Name : @Model.Movie.Name</h4>
+    <h4>Customers count : @Model.Customer.Count</h4>
+    <h4>Customer's list :</h4>
+    <ul>
+
+        @foreach (var item in Model.Customer)
+        {
+            var className = Model.Customer.Count > 1 ? "text-success" : "text-muted";
+            
+            <li class="@className"> @item.Name</li>
+        }
+    </ul>
+    <br />
+    
+
+
+</section>

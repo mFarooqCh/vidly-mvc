@@ -1,0 +1,46 @@
+﻿@model mvcWithMosh.ViewModels.NewCustomerVM
+@{
+    ViewBag.Title = "New Customer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container py-3">
+    <h2>New Customer</h2>
+    <hr />
+    @using (Html.BeginForm("New", "Customers", FormMethod.Post))
+    {
+        @Html.ValidationSummary(true, "Please fill all the required fields.")
+
+        <div class="form-group col-md-6">
+            @Html.LabelFor(c => c.Customer.Name)
+            @Html.TextBoxFor(c => c.Customer.Name, new { @class = "form-control" })
+            @Html.ValidationMessageFor(c => c.Customer.Name)
+        </div>
+        <div class="form-group col-md-6">
+            @Html.LabelFor(c => c.Customer.MembershipTypeId)
+            @Html.DropDownListFor(c => c.Customer.MembershipTypeId, new SelectList(Model.MembershipTypes, "Id", "Name"), "Select Membership Type", new { @class = "form-control" })
+            @Html.ValidationMessageFor(c => c.Customer.MembershipTypeId)
+
+        </div>
+        <div class="form-group col-md-6">
+            @Html.LabelFor(c => c.Customer.DateOfBirth)
+            @Html.TextBoxFor(c => c.Customer.DateOfBirth, new { @type = "date", @class = "form-control" })
+            @Html.ValidationMessageFor(c => c.Customer.DateOfBirth)
+
+        </div>
+        <label class="col-md-6 mt-2">
+            @Html.CheckBoxFor(c => c.Customer.IsSubscriber, new { @class = "custom-checkbox" }) Subscribed to Newslatter?
+        </label>
+        <div class="col-md-6 mt-3">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-sm btn-outline-success w-25"> Add </button>
+        </div>
+    }
+</div>
+
+@* by adding this section and jqueryValidation,,, server side data anotations apply to fileds without even a call back to server. *@
+@section scripts{
+    
+    @Scripts.Render("~/bundles/jqueryval")    
+
+}

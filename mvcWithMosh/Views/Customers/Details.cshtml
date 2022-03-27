@@ -1,0 +1,50 @@
+﻿@using mvcWithMosh.Models
+@model Customers
+@{
+    ViewBag.Title = "Customer Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container py-3">
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title">Customer Details</h4>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered">
+                <tr>
+                    <td>Name </td>
+                    <td>@Model.Name</td>
+                </tr>
+                <tr>
+                    <td>Membership Type</td>
+                    <td> @Model.MembershipType.Name</td>
+                </tr>
+                <tr>
+                    @if (Model.DateOfBirth != null)
+                    {
+                        <td>Date Of Birth</td>
+                        <td>
+                            @{
+                                DateTime myDob = Convert.ToDateTime(Model.DateOfBirth);
+                                string dob = myDob.ToString("dddd, dd MMMM yyyy");
+                        }
+                        @dob
+                    </td>
+                }
+                </tr>
+                <tr>
+                    <td>
+                        @Html.ActionLink("Edit Details", "Edit", new { id = Model.Id }, new { @class = "btn btn-sm btn-outline-info" })
+                    </td>
+                    <td>
+
+                        @Html.ActionLink("Delete", "Delete", new { id = Model.Id }, new { @class = "btn btn-sm btn-outline-danger" })
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,49 @@
+﻿@model mvcWithMosh.ViewModels.NewCustomerVM
+@{
+    ViewBag.Title = "Edit Customer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container py-3">
+    <h2>Edit Customer Details</h2>
+    <hr />
+
+    @using (Html.BeginForm("Update", "Customers", FormMethod.Post, null))
+    {
+        <div class="form-group col-md-6">
+            @Html.LabelFor(c => c.Customer.Name)
+            @Html.TextBoxFor(c => c.Customer.Name, new { @class = "form-control" })
+            @Html.ValidationMessageFor(c => c.Customer.Name)
+        </div>
+        <div class="form-group col-md-6">
+            @Html.LabelFor(c => c.Customer.DateOfBirth)
+            @Html.TextBoxFor(c => c.Customer.DateOfBirth, "{0:d MMM yyyy}", new { @class = "form-control" })
+            @Html.ValidationMessageFor(c => c.Customer.DateOfBirth)
+
+        </div>
+        <div class="form-group col-md-6">
+            @Html.LabelFor(c => c.Customer.MembershipTypeId)
+            @Html.DropDownListFor(c => c.Customer.MembershipTypeId, new SelectList(Model.MembershipTypes, "Id", "Name"), "Select Membership Type", new { @class = "form-control" })
+            @Html.ValidationMessageFor(c => c.Customer.MembershipTypeId)
+
+        </div>
+        <label class="col-md-6 mt-2">
+            @Html.CheckBoxFor(c => c.Customer.IsSubscriber, new { @class = "custom-checkbox" }) Subscribed to Newslatter?
+        </label>
+
+        <div class="row col-md-12">
+            <div class="col-md-6 mt-3">
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(c => c.Customer.Id)
+                <button type="submit" class="btn btn-sm btn-outline-primary w-25">  Update </button>
+            </div>
+            <div class="col-md-6 mt-3">
+                @Html.ActionLink("Cancel Editing", "Details", new { id = Model.Customer.Id }, new { @class = "btn btn-sm btn-outline-danger" })
+            </div>
+        </div>
+    }
+</div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    }
