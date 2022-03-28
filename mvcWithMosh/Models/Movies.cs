@@ -27,5 +27,7 @@ namespace mvcWithMosh.Models
         [Display(Name = "Number In Stock")]
         [Range(1,100)]//ErrorMessage ="Number in stock must be between 1 and 100"
         public int NumInStock { get; set; }
+
+        public int? NumberAvailable { get; set; }
     }
 }

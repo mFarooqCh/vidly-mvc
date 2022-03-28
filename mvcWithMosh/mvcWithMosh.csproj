@@ -183,6 +183,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Api\CustomersController.cs" />
+    <Compile Include="Controllers\Api\MovieRentalController.cs" />
     <Compile Include="Controllers\Api\MoviesController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -191,6 +192,7 @@
     <Compile Include="DTOs\CustomerDTO.cs" />
     <Compile Include="DTOs\GenreDTO.cs" />
     <Compile Include="DTOs\MembershipTypesDTO.cs" />
+    <Compile Include="DTOs\MovieRetalDTO.cs" />
     <Compile Include="DTOs\MoviesDTO.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -217,6 +219,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\MembershipType.cs" />
     <Compile Include="Models\MovieFormViewModel.cs" />
+    <Compile Include="Models\MovieRental.cs" />
     <Compile Include="Models\Movies.cs" />
     <Compile Include="Models\MyDbContext.cs" />
     <Compile Include="Models\NewMovieVM.cs" />
@@ -577,6 +580,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Base\" />
+    <Folder Include="Views\MovieRental\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
